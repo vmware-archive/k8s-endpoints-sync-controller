@@ -7,7 +7,6 @@ This controller deployed on each connected kuberentes cluster replicates the kub
 
 The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the api objects. 
 
-## Try it out
 
 ### Prerequisites
 
