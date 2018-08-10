@@ -5,9 +5,8 @@
 ## Overview
 This controller deployed on each connected kuberentes cluster replicates the kubernetes service and endpoints objects across clusters so that services can be discovered and communicate across clusters using kubernetes service names.
 
-The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the api objects. 
+The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the api objects.
 
-## Try it out
 
 ### Prerequisites
 
@@ -21,9 +20,11 @@ The communication across clusters relies on kube-proxy to update the iptable rul
 ### Build & Run
 
 1. Install go 1.9 or higher version
-2. checkout the project onto the GOPATH
-3. make build -> to build the binary
-4. make buildimage TAG=<image_name>:<version> -> to build docker image
+2. Install glide
+3. checkout the project onto the GOPATH
+4. run *glide up* -> to import all the dependencies
+3. run *make build* -> to build the binary
+4. run *make buildimage TAG=<image_name:version>* -> to build docker image
 
 ## Documentation
 
@@ -34,27 +35,29 @@ This is achieved by creating in cluster A:
 
 This enables kubeproxy in cluster A to load balance requests on the service name of app B to app B's pods.
 
-[cross-cluster service discovery example](discovery.png)
+![cross-cluster service discovery example](discovery.png)
 
 ### Annotations for Service Migration
 The controller provides annotation features for the service teams to migrate services with no downtime. The following describes on how to use these annotation when migrating service from source cluster to target cluster. 
 
- Annotation Key: vmware.com/syndicate-mode \
- Annoration Values: {source, receiver, singular}
+ **Annotation Key: vmware.com/syndicate-mode** \
+ **Annoration Values: {source, receiver, singular}**
 
 Before migration the service is replicated from source cluster to target cluster i.e the service obj in the source cluster will have the selector but the replicated service obj in the target cluster will not have selector and the endpoints obj in that cluster is maintained by the controller. After migration, the service is replicated from target cluster to source cluster.
 
 ##### Migrating K8s service obj with selector for stateful services
-After deploying new pods in target cluster and completing the data migration, Add annotation 'receiver' in the source cluster. This should update the service obj in the target cluster with annotation 'source'. This will remove the selector from the service in the source cluster and the replication will now happen from target→source cluster.
-Update the service obj in the target cluster with right selector.
+After deploying new pods in target cluster and completing the data migration, 
+1. Add annotation 'receiver' in the source cluster. This should update the service obj in the target cluster with annotation 'source'. Also, the controller will remove the selector from the service in the source cluster and the replication will now happen from target→source cluster.
+2. Update the service obj in the target cluster with right selector.
 
 ##### Migrating K8s service obj with selector for stateless services
-After deploying new pods in target cluster, Add annotation 'union' in the source cluster. This will remove the selector from the service obj in source cluster and updates endpoints object in both clusters with union of pod ipaddresses( old ips + new ips). This ensures that the request for the service will be served by any of the pod in both clusters.
-Update the service obj in target cluster with 'source' annotation. This should update the service obj in the source cluster with annotation 'receiver' and the replication will now happen from target→source cluster.
-Update the service obj in the target cluster with right selector if needed.
+After deploying new pods in target cluster, 
+1. Add annotation 'union' in the source cluster. This will remove the selector from the service obj in source cluster and updates endpoints object in both clusters with union of pod ipaddresses( old ips + new ips). This ensures that the request for the service will be served by any of the pod in both clusters.
+2. Update the service obj in target cluster with 'source' annotation. This should update the service obj in the source cluster with annotation 'receiver' and the replication will now happen from target→source cluster.
+3. Update the service obj in the target cluster with right selector if needed.
 
 ##### Stop replicating K8s service & endpoints object
-Update the service obj in any cluster with annotation 'singular'. This will stop replicating that service and will remove replicated svc obj and endpoints obj.
+1. Update the service obj in any cluster with annotation 'singular'. This will stop replicating that service and will remove replicated svc obj and endpoints obj.
 Creating service obj in any cluster with annotation 'singular' will also not create replicated objects. 
 
 ## Releases & Major Branches
