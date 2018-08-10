@@ -1,3 +1,6 @@
+// Copyright © 2018 VMware, Inc. All Rights Reserved.
+// SPDX-License-Identifier: MIT
+
 package log
 
 import (

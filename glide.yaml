@@ -1,3 +1,6 @@
+# Copyright © 2018 VMware, Inc. All Rights Reserved.
+# SPDX-License-Identifier: MIT
+
 package: github.com/vmware/k8s-endpoints-sync-controller
 import:
 - package: k8s.io/client-go

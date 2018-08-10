@@ -1,3 +1,6 @@
+## Copyright ? 2018 VMware, Inc. All Rights Reserved.
+## SPDX-License-Identifier: BSD-2-Clause
+
 GO ?= go
 GOVERSION ?= go1.9.2
 SHELL := /bin/bash
