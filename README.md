@@ -3,7 +3,7 @@
 # k8s-endpoints-sync-controller
 
 ## Overview
-This controller deployed on each connected kuberentes cluster replicates the Kubernetes service and endpoints objects across clusters so that services can be discovered and enables communication across clusters using Kubernetes service names.
+This controller deployed on each connected Kubernetes cluster replicates the Kubernetes service and endpoints objects across clusters so that services can be discovered and enables communication across clusters using Kubernetes service names.
 
 The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the API objects.
 
