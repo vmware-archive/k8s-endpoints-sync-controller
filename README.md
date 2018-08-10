@@ -3,9 +3,9 @@
 # k8s-endpoints-sync-controller
 
 ## Overview
-This controller deployed on each connected kuberentes cluster replicates the kubernetes service and endpoints objects across clusters so that services can be discovered and communicate across clusters using kubernetes service names.
+This controller deployed on each connected kuberentes cluster replicates the Kubernetes service and endpoints objects across clusters so that services can be discovered and enables communication across clusters using Kubernetes service names.
 
-The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the api objects.
+The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the API objects.
 
 
 ### Prerequisites
@@ -15,16 +15,16 @@ The communication across clusters relies on kube-proxy to update the iptable rul
     1) VPN across clusters with L3 routing if using Kubenet network plugin. 
     2) on GKE, https://istio.io/docs/examples/multicluster/gke/
     3) on IBM cloud, https://istio.io/docs/examples/multicluster/icp/ 
-* Kubernetes API server of every cluster should be reachable to other clusters.
+* The Kubernetes API Server of every cluster should be reachable to other clusters.
 
 ### Build & Run
 
-1. Install go 1.9 or higher version
-2. Install glide
+1. Install Go 1.9 or higher version
+2. Install Glide
 3. checkout the project onto the GOPATH
 4. run *glide up* -> to import all the dependencies
 3. run *make build* -> to build the binary
-4. run *make buildimage TAG=<image_name:version>* -> to build docker image
+4. run *make buildimage TAG=<image_name:version>* -> to build the Docker image
 
 The executable expects kubeconfig files of the clusters to connect mounted at /etc/kubeconfigs to run in the cluster. \
 The following environment variables can be set
@@ -34,17 +34,17 @@ The following environment variables can be set
 
 ## Documentation
 
-Having the pod IP addresses routable across clusters, the goal is to enable communication through K8s service objects i.e. App A in region A should talk to app B in region B using app B's K8s service name and vice-versa
+Assuming the pod IP addresses are routable across clusters, the goal is to enable communication through K8s service objects i.e. App A in region A should talk to app B in region B using app B's K8s service name and vice-versa.
 This is achieved by creating in cluster A:
 1. app B service object (headed/headless) without pod selectors 
-2. endpoints object with endpoints as IP addresses of app B pods in cluster B. \
+2. endpoints object with endpoints as IP addresses of app B pods in cluster B. 
 
-This enables kubeproxy in cluster A to load balance requests on the service name of app B to app B's pods.
+This enables kube-proxy in cluster A to load balance requests on the service name of app B to app B's pods.
 
 ![cross-cluster service discovery example](discovery.png)
 
 ### Annotations for Service Migration
-The controller provides annotation features for the service teams to migrate services with no downtime. The following describes on how to use these annotation when migrating service from source cluster to target cluster. 
+The controller provides annotation features for the service teams to migrate services with no downtime. The following describes how to use these annotation when migrating a service from source cluster to target cluster. 
 
  **Annotation Key: vmware.com/syndicate-mode** \
  **Annoration Values: {source, receiver, singular}**
