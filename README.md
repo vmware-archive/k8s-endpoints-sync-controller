@@ -26,6 +26,12 @@ The communication across clusters relies on kube-proxy to update the iptable rul
 3. run *make build* -> to build the binary
 4. run *make buildimage TAG=<image_name:version>* -> to build docker image
 
+The executable expects kubeconfig files of the clusters to connect mounted at /etc/kubeconfigs to run in the cluster. \
+The following environment variables can be set
+1. NSTOWATCH - Array of namespaces in which services and endpoints objects will be watched and replicated. (Default: all)
+2. EXCLUDE - Array of namespaces in which objects will not be replicated. (Default: ) 
+
+
 ## Documentation
 
 Having the pod IP addresses routable across clusters, the goal is to enable communication through K8s service objects i.e. App A in region A should talk to app B in region B using app B's K8s service name and vice-versa
