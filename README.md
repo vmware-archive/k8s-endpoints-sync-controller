@@ -44,7 +44,8 @@ This enables kube-proxy in cluster A to load balance requests on the service nam
 ![cross-cluster service discovery example](discovery.png)
 
 ### Annotations for Service Migration
-The controller provides annotation features for the service teams to migrate services with no downtime. The following describes how to use these annotations when migrating a service from source cluster to target cluster. 
+The controller provides annotation features for the service teams to migrate services across clusters with no downtime. 
+The following describes how to use these annotations when migrating a service from source cluster to target cluster. 
 
  **Annotation Key: vmware.com/syndicate-mode** \
  **Annoration Values: {source, receiver, singular}**
