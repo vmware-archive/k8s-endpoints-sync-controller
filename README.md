@@ -13,8 +13,9 @@ The communication across clusters relies on kube-proxy to update the iptable rul
 * All the clusters should have different clusterCIDR.
 * All the clusters should be connected so that there is Pod to Pod connectivity across clusters. This can be achieved using 
     1) VPN across clusters with L3 routing if using Kubenet network plugin. 
-    2) on GKE, https://istio.io/docs/examples/multicluster/gke/
-    3) on IBM cloud, https://istio.io/docs/examples/multicluster/icp/ 
+    2) On AWS, VPC peering between two EKS clusters
+    3) on GKE, https://istio.io/docs/examples/multicluster/gke/
+    4) on IBM cloud, https://istio.io/docs/examples/multicluster/icp/ 
 * The Kubernetes API Server of every cluster should be reachable to other clusters.
 
 ### Build & Run
