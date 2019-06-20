@@ -7,6 +7,8 @@ This controller deployed on each connected Kubernetes cluster replicates the Kub
 
 The communication across clusters relies on kube-proxy to update the iptable rules on each node as the controller creates/updates the API objects.
 
+## Talks
+lightning talk at SRECON Asia 2019. https://www.usenix.org/sites/default/files/conference/protected-files/srecon19apac_slides_lightning.pdf#page=23 
 
 ### Prerequisites
 
